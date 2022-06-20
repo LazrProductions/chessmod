@@ -1,0 +1,7 @@
+{
+    "replace": false,
+    "values": [
+        "chessmod:board_block",
+        "chessmod:chess_piece"
+    ]
+}

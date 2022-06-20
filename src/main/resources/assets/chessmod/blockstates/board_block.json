@@ -1,0 +1,11 @@
+{
+    "variants": {
+            "dye=0,border=0": {"model":"chessmod:block/board_block/board_block1"},
+            "dye=0,border=1": {"model":"chessmod:block/board_block/board_block2"},
+            "dye=1,border=0": {"model":"chessmod:block/board_block/board_block3"},
+            "dye=1,border=1": {"model":"chessmod:block/board_block/board_block4"},
+            "dye=2,border=0": {"model":"chessmod:block/board_block/board_block5"},
+            "dye=2,border=1": {"model":"chessmod:block/board_block/board_block6"}
+            
+    }
+}

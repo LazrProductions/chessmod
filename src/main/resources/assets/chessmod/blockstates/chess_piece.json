@@ -1,0 +1,427 @@
+{
+    "variants": {
+            "piece=0,dye=0": {
+                "model": "chessmod:block/piece_pawn"
+            },
+            "piece=0,dye=1": {
+                "model": "chessmod:block/piece_pawn_white"
+            },
+            "piece=0,dye=2": {
+                "model": "chessmod:block/piece_pawn_light_gray"
+            },
+            "piece=0,dye=3": {
+                "model": "chessmod:block/piece_pawn_gray"
+            },
+            "piece=0,dye=4": {
+                "model": "chessmod:block/piece_pawn_black"
+            },
+            "piece=0,dye=5": {
+                "model": "chessmod:block/piece_pawn_brown"
+            },
+            "piece=0,dye=6": {
+                "model": "chessmod:block/piece_pawn_red"
+            },
+            "piece=0,dye=7": {
+                "model": "chessmod:block/piece_pawn_orange"
+            },
+            "piece=0,dye=8": {
+                "model": "chessmod:block/piece_pawn_yellow"
+            },
+            "piece=0,dye=9": {
+                "model": "chessmod:block/piece_pawn_lime"
+            },
+            "piece=0,dye=10": {
+                "model": "chessmod:block/piece_pawn_green"
+            },
+            "piece=0,dye=11": {
+                "model": "chessmod:block/piece_pawn_cyan"
+            },
+            "piece=0,dye=12": {
+                "model": "chessmod:block/piece_pawn_light_blue"
+            },
+            "piece=0,dye=13": {
+                "model": "chessmod:block/piece_pawn_blue"
+            },
+            "piece=0,dye=14": {
+                "model": "chessmod:block/piece_pawn_purple"
+            },
+            "piece=0,dye=15": {
+                "model": "chessmod:block/piece_pawn_magenta"
+            },
+            "piece=0,dye=16": {
+                "model": "chessmod:block/piece_pawn_pink"
+            },
+
+
+            "piece=1,dye=0": {
+                "model": "chessmod:block/piece_knight"
+            },
+            "piece=1,dye=1": {
+                "model": "chessmod:block/piece_knight_white"
+            },
+            "piece=1,dye=2": {
+                "model": "chessmod:block/piece_knight_light_gray"
+            },
+            "piece=1,dye=3": {
+                "model": "chessmod:block/piece_knight_gray"
+            },
+            "piece=1,dye=4": {
+                "model": "chessmod:block/piece_knight_black"
+            },
+            "piece=1,dye=5": {
+                "model": "chessmod:block/piece_knight_brown"
+            },
+            "piece=1,dye=6": {
+                "model": "chessmod:block/piece_knight_red"
+            },
+            "piece=1,dye=7": {
+                "model": "chessmod:block/piece_knight_orange"
+            },
+            "piece=1,dye=8": {
+                "model": "chessmod:block/piece_knight_yellow"
+            },
+            "piece=1,dye=9": {
+                "model": "chessmod:block/piece_knight_lime"
+            },
+            "piece=1,dye=10": {
+                "model": "chessmod:block/piece_knight_green"
+            },
+            "piece=1,dye=11": {
+                "model": "chessmod:block/piece_knight_cyan"
+            },
+            "piece=1,dye=12": {
+                "model": "chessmod:block/piece_knight_light_blue"
+            },
+            "piece=1,dye=13": {
+                "model": "chessmod:block/piece_knight_blue"
+            },
+            "piece=1,dye=14": {
+                "model": "chessmod:block/piece_knight_purple"
+            },
+            "piece=1,dye=15": {
+                "model": "chessmod:block/piece_knight_magenta"
+            },
+            "piece=1,dye=16": {
+                "model": "chessmod:block/piece_knight_pink"
+            },
+
+
+            "piece=2,dye=0": {
+                "model": "chessmod:block/piece_bishop"
+            },
+            "piece=2,dye=1": {
+                "model": "chessmod:block/piece_bishop_white"
+            },
+            "piece=2,dye=2": {
+                "model": "chessmod:block/piece_bishop_light_gray"
+            },
+            "piece=2,dye=3": {
+                "model": "chessmod:block/piece_bishop_gray"
+            },
+            "piece=2,dye=4": {
+                "model": "chessmod:block/piece_bishop_black"
+            },
+            "piece=2,dye=5": {
+                "model": "chessmod:block/piece_bishop_brown"
+            },
+            "piece=2,dye=6": {
+                "model": "chessmod:block/piece_bishop_red"
+            },
+            "piece=2,dye=7": {
+                "model": "chessmod:block/piece_bishop_orange"
+            },
+            "piece=2,dye=8": {
+                "model": "chessmod:block/piece_bishop_yellow"
+            },
+            "piece=2,dye=9": {
+                "model": "chessmod:block/piece_bishop_lime"
+            },
+            "piece=2,dye=10": {
+                "model": "chessmod:block/piece_bishop_green"
+            },
+            "piece=2,dye=11": {
+                "model": "chessmod:block/piece_bishop_cyan"
+            },
+            "piece=2,dye=12": {
+                "model": "chessmod:block/piece_bishop_light_blue"
+            },
+            "piece=2,dye=13": {
+                "model": "chessmod:block/piece_bishop_blue"
+            },
+            "piece=2,dye=14": {
+                "model": "chessmod:block/piece_bishop_purple"
+            },
+            "piece=2,dye=15": {
+                "model": "chessmod:block/piece_bishop_magenta"
+            },
+            "piece=2,dye=16": {
+                "model": "chessmod:block/piece_bishop_pink"
+            },
+
+
+            "piece=3,dye=0": {
+                "model": "chessmod:block/piece_rook"
+            },
+            "piece=3,dye=1": {
+                "model": "chessmod:block/piece_rook_white"
+            },
+            "piece=3,dye=2": {
+                "model": "chessmod:block/piece_rook_light_gray"
+            },
+            "piece=3,dye=3": {
+                "model": "chessmod:block/piece_rook_gray"
+            },
+            "piece=3,dye=4": {
+                "model": "chessmod:block/piece_rook_black"
+            },
+            "piece=3,dye=5": {
+                "model": "chessmod:block/piece_rook_brown"
+            },
+            "piece=3,dye=6": {
+                "model": "chessmod:block/piece_rook_red"
+            },
+            "piece=3,dye=7": {
+                "model": "chessmod:block/piece_rook_orange"
+            },
+            "piece=3,dye=8": {
+                "model": "chessmod:block/piece_rook_yellow"
+            },
+            "piece=3,dye=9": {
+                "model": "chessmod:block/piece_rook_lime"
+            },
+            "piece=3,dye=10": {
+                "model": "chessmod:block/piece_rook_green"
+            },
+            "piece=3,dye=11": {
+                "model": "chessmod:block/piece_rook_cyan"
+            },
+            "piece=3,dye=12": {
+                "model": "chessmod:block/piece_rook_light_blue"
+            },
+            "piece=3,dye=13": {
+                "model": "chessmod:block/piece_rook_blue"
+            },
+            "piece=3,dye=14": {
+                "model": "chessmod:block/piece_rook_purple"
+            },
+            "piece=3,dye=15": {
+                "model": "chessmod:block/piece_rook_magenta"
+            },
+            "piece=3,dye=16": {
+                "model": "chessmod:block/piece_rook_pink"
+            },
+
+
+            "piece=4,dye=0": {
+                "model": "chessmod:block/piece_king"
+            },
+            "piece=4,dye=1": {
+                "model": "chessmod:block/piece_king_white"
+            },
+            "piece=4,dye=2": {
+                "model": "chessmod:block/piece_king_light_gray"
+            },
+            "piece=4,dye=3": {
+                "model": "chessmod:block/piece_king_gray"
+            },
+            "piece=4,dye=4": {
+                "model": "chessmod:block/piece_king_black"
+            },
+            "piece=4,dye=5": {
+                "model": "chessmod:block/piece_king_brown"
+            },
+            "piece=4,dye=6": {
+                "model": "chessmod:block/piece_king_red"
+            },
+            "piece=4,dye=7": {
+                "model": "chessmod:block/piece_king_orange"
+            },
+            "piece=4,dye=8": {
+                "model": "chessmod:block/piece_king_yellow"
+            },
+            "piece=4,dye=9": {
+                "model": "chessmod:block/piece_king_lime"
+            },
+            "piece=4,dye=10": {
+                "model": "chessmod:block/piece_king_green"
+            },
+            "piece=4,dye=11": {
+                "model": "chessmod:block/piece_king_cyan"
+            },
+            "piece=4,dye=12": {
+                "model": "chessmod:block/piece_king_light_blue"
+            },
+            "piece=4,dye=13": {
+                "model": "chessmod:block/piece_king_blue"
+            },
+            "piece=4,dye=14": {
+                "model": "chessmod:block/piece_king_purple"
+            },
+            "piece=4,dye=15": {
+                "model": "chessmod:block/piece_king_magenta"
+            },
+            "piece=4,dye=16": {
+                "model": "chessmod:block/piece_king_pink"
+            },
+
+
+            "piece=5,dye=0": {
+                "model": "chessmod:block/piece_queen"
+            },
+            "piece=5,dye=1": {
+                "model": "chessmod:block/piece_queen_white"
+            },
+            "piece=5,dye=2": {
+                "model": "chessmod:block/piece_queen_light_gray"
+            },
+            "piece=5,dye=3": {
+                "model": "chessmod:block/piece_queen_gray"
+            },
+            "piece=5,dye=4": {
+                "model": "chessmod:block/piece_queen_black"
+            },
+            "piece=5,dye=5": {
+                "model": "chessmod:block/piece_queen_brown"
+            },
+            "piece=5,dye=6": {
+                "model": "chessmod:block/piece_queen_red"
+            },
+            "piece=5,dye=7": {
+                "model": "chessmod:block/piece_queen_orange"
+            },
+            "piece=5,dye=8": {
+                "model": "chessmod:block/piece_queen_yellow"
+            },
+            "piece=5,dye=9": {
+                "model": "chessmod:block/piece_queen_lime"
+            },
+            "piece=5,dye=10": {
+                "model": "chessmod:block/piece_queen_green"
+            },
+            "piece=5,dye=11": {
+                "model": "chessmod:block/piece_queen_cyan"
+            },
+            "piece=5,dye=12": {
+                "model": "chessmod:block/piece_queen_light_blue"
+            },
+            "piece=5,dye=13": {
+                "model": "chessmod:block/piece_queen_blue"
+            },
+            "piece=5,dye=14": {
+                "model": "chessmod:block/piece_queen_purple"
+            },
+            "piece=5,dye=15": {
+                "model": "chessmod:block/piece_queen_magenta"
+            },
+            "piece=5,dye=16": {
+                "model": "chessmod:block/piece_queen_pink"
+            },
+
+
+            "piece=6,dye=0": {
+                "model": "chessmod:block/checkers/piece_checkers"
+            },
+            "piece=6,dye=1": {
+                "model": "chessmod:block/checkers/piece_checkers_white"
+            },
+            "piece=6,dye=2": {
+                "model": "chessmod:block/checkers/piece_checkers_light_gray"
+            },
+            "piece=6,dye=3": {
+                "model": "chessmod:block/checkers/piece_checkers_gray"
+            },
+            "piece=6,dye=4": {
+                "model": "chessmod:block/checkers/piece_checkers_black"
+            },
+            "piece=6,dye=5": {
+                "model": "chessmod:block/checkers/piece_checkers_brown"
+            },
+            "piece=6,dye=6": {
+                "model": "chessmod:block/checkers/piece_checkers_red"
+            },
+            "piece=6,dye=7": {
+                "model": "chessmod:block/checkers/piece_checkers_orange"
+            },
+            "piece=6,dye=8": {
+                "model": "chessmod:block/checkers/piece_checkers_yellow"
+            },
+            "piece=6,dye=9": {
+                "model": "chessmod:block/checkers/piece_checkers_lime"
+            },
+            "piece=6,dye=10": {
+                "model": "chessmod:block/checkers/piece_checkers_green"
+            },
+            "piece=6,dye=11": {
+                "model": "chessmod:block/checkers/piece_checkers_cyan"
+            },
+            "piece=6,dye=12": {
+                "model": "chessmod:block/checkers/piece_checkers_light_blue"
+            },
+            "piece=6,dye=13": {
+                "model": "chessmod:block/checkers/piece_checkers_blue"
+            },
+            "piece=6,dye=14": {
+                "model": "chessmod:block/checkers/piece_checkers_purple"
+            },
+            "piece=6,dye=15": {
+                "model": "chessmod:block/checkers/piece_checkers_magenta"
+            },
+            "piece=6,dye=16": {
+                "model": "chessmod:block/checkers/piece_checkers_pink"
+            },
+
+
+            "piece=7,dye=0": {
+                "model": "chessmod:block/checkers/piece_checkers_king"
+            },
+            "piece=7,dye=1": {
+                "model": "chessmod:block/checkers/piece_checkers_king_white"
+            },
+            "piece=7,dye=2": {
+                "model": "chessmod:block/checkers/piece_checkers_king_light_gray"
+            },
+            "piece=7,dye=3": {
+                "model": "chessmod:block/checkers/piece_checkers_king_gray"
+            },
+            "piece=7,dye=4": {
+                "model": "chessmod:block/checkers/piece_checkers_king_black"
+            },
+            "piece=7,dye=5": {
+                "model": "chessmod:block/checkers/piece_checkers_king_brown"
+            },
+            "piece=7,dye=6": {
+                "model": "chessmod:block/checkers/piece_checkers_king_red"
+            },
+            "piece=7,dye=7": {
+                "model": "chessmod:block/checkers/piece_checkers_king_orange"
+            },
+            "piece=7,dye=8": {
+                "model": "chessmod:block/checkers/piece_checkers_king_yellow"
+            },
+            "piece=7,dye=9": {
+                "model": "chessmod:block/checkers/piece_checkers_king_lime"
+            },
+            "piece=7,dye=10": {
+                "model": "chessmod:block/checkers/piece_checkers_king_green"
+            },
+            "piece=7,dye=11": {
+                "model": "chessmod:block/checkers/piece_checkers_king_cyan"
+            },
+            "piece=7,dye=12": {
+                "model": "chessmod:block/checkers/piece_checkers_king_light_blue"
+            },
+            "piece=7,dye=13": {
+                "model": "chessmod:block/checkers/piece_checkers_king_blue"
+            },
+            "piece=7,dye=14": {
+                "model": "chessmod:block/checkers/piece_checkers_king_purple"
+            },
+            "piece=7,dye=15": {
+                "model": "chessmod:block/checkers/piece_checkers_king_magenta"
+            },
+            "piece=7,dye=16": {
+                "model": "chessmod:block/checkers/piece_checkers_king_pink"
+            }
+            
+    }
+}
