@@ -125,7 +125,6 @@ public class ChessPieceBlock extends Block
                         nextPiece = 0;
                     }
                     world.setBlockState(pos, state.with(PIECE, nextPiece), Block.NOTIFY_ALL);
-                    ChessClientMod.instance.selectPiece(pos, nextPiece, state.get(COLOR), state.get(FACING));
 
                     world.playSound(null, pos, SoundEvents.BLOCK_WOOD_HIT, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     return ActionResult.SUCCESS;
@@ -133,7 +132,6 @@ public class ChessPieceBlock extends Block
                 if (IsDye(player.getStackInHand(hand).getItem()) > -1 && IsDye(player.getStackInHand(hand).getItem()) != state.get(COLOR)) {
                     // is using dye
                     world.setBlockState(pos, state.with(COLOR, IsDye(player.getStackInHand(hand).getItem())));
-                    ChessClientMod.instance.selectPiece(pos, state.get(PIECE), IsDye(player.getStackInHand(hand).getItem()), state.get(FACING));
                     if (IsDye(player.getStackInHand(hand).getItem()) > 0) {
                         // play the dye use sound
                         world.playSound(null, pos, SoundEvents.ITEM_DYE_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);

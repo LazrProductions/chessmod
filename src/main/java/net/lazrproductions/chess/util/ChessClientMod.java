@@ -75,17 +75,17 @@ public class ChessClientMod implements ClientModInitializer {
             }),
             new Moveset(new String[] {
                     "     ", // King
-                    "  1  ", //
+                    " 111 ", //
                     " 1O1 ", // Can up, down, left, and right (by one block).
-                    "  1  ", //
+                    " 111 ", //
                     "     " //
             }),
             new Moveset(new String[] {
-                    " 1 1 ", // Queen
-                    "1***1", //
+                    "     ", // Queen
+                    " *** ", //
                     " *O* ", // Can move up, down, left, right, and like a knight (in an L shape).
-                    "1***1", //
-                    " 1 1 " //
+                    " *** ", //
+                    "     " //
             }),
             new Moveset(new String[] {
                     "     ", // Checkers Piece
