@@ -3,9 +3,8 @@
   "minVersion": "0.8",
   "package": "net.lazrproductions.chess.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
-  ],
   "client": [
+    "MixinWorldRenderer"
   ],
   "injectors": {
     "defaultRequire": 1
