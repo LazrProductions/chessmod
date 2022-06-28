@@ -159,7 +159,10 @@ public class ChessPieceBlock extends Block
                     return ActionResult.SUCCESS;
                 }
 
-            } else if(!ChessClientMod.instance.pieceIsSelected(pos)) {
+            }
+        }
+        if(world.isClient() && hand == Hand.MAIN_HAND) {
+            if(!ChessClientMod.instance.pieceIsSelected(pos)) {
                 //Select Piece
                 ChessClientMod.instance.selectPiece(pos, state.get(PIECE), state.get(COLOR), state.get(FACING));
                 return ActionResult.SUCCESS;
