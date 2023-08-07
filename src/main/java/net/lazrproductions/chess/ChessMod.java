@@ -2,6 +2,7 @@ package net.lazrproductions.chess;
 
 import net.lazrproductions.chess.block.ModBlocks;
 import net.lazrproductions.chess.config.ModConfigs;
+import net.lazrproductions.chess.item.ModItemGroup;
 import net.lazrproductions.chess.item.ModItems;
 
 
@@ -23,5 +24,7 @@ public class ChessMod implements ModInitializer
         //Register Blocks and Items
         ModItems.registerModItems();
         ModBlocks.registerModBlocks();
+
+        ModItemGroup.registerItemGroups();
     }
 }

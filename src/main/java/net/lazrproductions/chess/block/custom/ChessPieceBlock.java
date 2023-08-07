@@ -190,9 +190,11 @@ public class ChessPieceBlock extends Block
     }
     
     @Override
-    public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
+    public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
         return true;
     }
+
+
 
     //////////////// Saving and Loading NBT
     @Override

@@ -16,7 +16,6 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
 
 @Mixin(WorldRenderer.class)
@@ -31,7 +30,7 @@ public class MixinWorldRenderer {
 
     public void renderGrid(MatrixStack stack, float tickDelta, long limitTime, boolean renderBlockOutline,
             Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, 
-            Matrix4f matrix4f, CallbackInfo ci) {
+            org.joml.Matrix4f matrix4f, CallbackInfo ci) {
               Vec3d vec3d = camera.getPos();
         double x = vec3d.getX();
         double y = vec3d.getY();

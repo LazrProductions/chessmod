@@ -36,7 +36,7 @@ public class Utilities {
         double y = t * a.getY() + (1 - t) * b.getY();
         double z = t * a.getZ() + (1 - t) * b.getZ();
 
-        return new BlockPos(x,y,z);
+        return new BlockPos((int)x,(int)y,(int)z);
     }
 
 
