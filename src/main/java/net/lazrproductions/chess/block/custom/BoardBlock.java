@@ -1,129 +1,132 @@
 package net.lazrproductions.chess.block.custom;
 
+import javax.annotation.Nullable;
+
 import net.lazrproductions.chess.block.ModBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtInt;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.IntProperty;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class BoardBlock extends Block {
 
-    public BoardBlock(Settings settings) {
-        super(settings);
+      public BoardBlock(Properties p) {
+        super(p);
     }
 
-
-    public static final IntProperty BORDER = IntProperty.of("border", 0, 1);
-    public static final IntProperty COLOR = IntProperty.of("dye", 0, 2);
+    public static final IntegerProperty BORDER = IntegerProperty.create("border", 0, 1);
+    public static final IntegerProperty COLOR = IntegerProperty.create("dye", 0, 2);
     static final Item[] dyes = { Items.POTION, Items.BLACK_DYE, Items.WHITE_DYE };
-
 
     ///////////// Interaction
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand,
             BlockHitResult hit) {
-        if (!world.isClient && hand == Hand.MAIN_HAND) {
-            if (IsDye(player.getStackInHand(hand).getItem()) <= -1) {
-                if (state.get(BORDER) == 0) {
-                    if (player.getStackInHand(hand).getItem() == Items.GOLD_INGOT) {
-                        world.setBlockState(pos, state.with(BORDER, 1));
+        if (!world.isClientSide && hand == InteractionHand.MAIN_HAND) {
+            if (IsDye(player.getItemInHand(hand).getItem()) <= -1) {
+                if (state.getValue(BORDER) == 0) {
+                    if (player.getItemInHand(hand).getItem() == Items.GOLD_INGOT) {
+                        world.setBlock(pos, state.setValue(BORDER, 1), 10);
                         if (!player.isCreative()) {
-                            player.getStackInHand(hand).decrement(1);
+                            player.getItemInHand(hand).shrink(1);
                         }
-                        world.playSound(null, pos, SoundEvents.BLOCK_LANTERN_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                        return ActionResult.SUCCESS;
+                        world.playSound(null, pos, SoundEvents.LANTERN_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                        return InteractionResult.SUCCESS;
                     }
-                } else if (player.getStackInHand(hand).getItem().getClass() == AxeItem.class) {
-                    world.setBlockState(pos, state.with(BoardBlock.BORDER, 0));
-                    ItemEntity i = new ItemEntity(world, (double) (pos.getX() + 0.5f + hit.getSide().getOffsetX()),
-                            (double) (pos.getY() + 0.5f + hit.getSide().getOffsetY()),
-                            (double) (pos.getZ() + 0.5f + hit.getSide().getOffsetZ()),
+                } else if (player.getItemInHand(hand).getItem().getClass() == AxeItem.class) {
+                    world.setBlock(pos, state.setValue(BoardBlock.BORDER, 0), 10);
+                    ItemEntity i = new ItemEntity(world, (double) (pos.getX() + 0.5f + hit.getDirection().getStepX()),
+                            (double) (pos.getY() + 0.5f + hit.getDirection().getStepX()),
+                            (double) (pos.getZ() + 0.5f + hit.getDirection().getStepZ()),
                             new ItemStack(Items.GOLD_NUGGET, (int) Math.round(Math.random() * 9.0)));
-                    i.resetPickupDelay();
-                    world.spawnEntity(i);
-                    world.playSound(null, pos, SoundEvents.BLOCK_LANTERN_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    return ActionResult.SUCCESS;
+                    i.setDefaultPickUpDelay();
+                    world.addFreshEntity(i);
+                    world.playSound(null, pos, SoundEvents.LANTERN_BREAK, SoundSource.BLOCKS, 1.0f, 1.0f);
+                    return InteractionResult.SUCCESS;
                 }
-            } else if (IsDye(player.getStackInHand(hand).getItem()) != state.get(COLOR)) {
-                world.setBlockState(pos, state.with(COLOR, IsDye(player.getStackInHand(hand).getItem())));
-                
-                if (IsDye(player.getStackInHand(hand).getItem()) > 0) {
-                    world.playSound(null, pos, SoundEvents.ITEM_DYE_USE, SoundCategory.BLOCKS, 1.0f, 1.0f);
+            } else if (IsDye(player.getItemInHand(hand).getItem()) != state.getValue(COLOR)) {
+                world.setBlock(pos, state.setValue(COLOR, IsDye(player.getItemInHand(hand).getItem())), 10);
+
+                if (IsDye(player.getItemInHand(hand).getItem()) > 0) {
+                    world.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
                 } else {
-                    world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0f, 1.0f);
+                    world.playSound(null, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0f, 1.0f);
                 }
                 if (!player.isCreative()) {
-                    if (IsDye(player.getStackInHand(hand).getItem()) > 0) {
-                        player.getInventory().getStack(player.getInventory().selectedSlot).decrement(1);
+                    if (IsDye(player.getItemInHand(hand).getItem()) > 0) {
+                        player.getItemInHand(hand).shrink(1);
                     } else {
-                        player.getInventory().getStack(player.getInventory().selectedSlot).decrement(1);
-                        ItemEntity i = new ItemEntity(world, (double) (pos.getX() + 0.5f + hit.getSide().getOffsetX()),
-                                (double) (pos.getY() + 0.5f + hit.getSide().getOffsetY()),
-                                (double) (pos.getZ() + 0.5f + hit.getSide().getOffsetZ()),
+                        player.getItemInHand(hand).shrink(1);
+                        ItemEntity i = new ItemEntity(world,
+                                (double) (pos.getX() + 0.5f + hit.getDirection().getStepX()),
+                                (double) (pos.getY() + 0.5f + hit.getDirection().getStepY()),
+                                (double) (pos.getZ() + 0.5f + hit.getDirection().getStepZ()),
                                 new ItemStack(Items.GLASS_BOTTLE, 1));
-                        i.resetPickupDelay();
-                        world.spawnEntity(i);
+                        i.setDefaultPickUpDelay();
+                        world.addFreshEntity(i);
                     }
                 }
 
-                return ActionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         }
-        return ActionResult.FAIL;
+        return InteractionResult.FAIL;
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
         builder.add(BORDER, COLOR);
     }
     /////////////
 
-
     //////////////// Saving and Loading NBT
     @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (!world.isClient() && !player.isCreative()) {
-            ItemStack itemStack = new ItemStack(ModBlocks.BOARD_BLOCK.asItem());
-            NbtCompound nbt = new NbtCompound();
-            itemStack.setNbt(nbt);
-            itemStack.setSubNbt("border", NbtInt.of((int)state.get(BORDER)));
-            itemStack.setSubNbt("dye", NbtInt.of((int)state.get(COLOR)));
-            itemStack.setCustomName(Text.of(getPieceName(state.get(BORDER), state.get(COLOR))));
-            ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, itemStack);
-            itemEntity.resetPickupDelay();
-            world.spawnEntity(itemEntity);
+    public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
+        if (!level.isClientSide()) {
+            ItemStack itemStack = new ItemStack(ModBlocks.BOARD_BLOCK.get());
+            CompoundTag nbt = new CompoundTag();
+            nbt.putInt("border", (int) state.getValue(BORDER));
+            nbt.putInt("dye", (int) state.getValue(COLOR));
+            itemStack.setTag(nbt);
+            itemStack.setHoverName(Component.literal(getPieceName(state.getValue(BORDER), state.getValue(COLOR))));
+            ItemEntity itemEntity = new ItemEntity((Level) level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                    itemStack);
+            itemEntity.setDefaultPickUpDelay();
+            level.addFreshEntity(itemEntity);
         }
-        super.onBreak(world, pos, state, player);
+        super.destroy(level, pos, state);
     }
-    
+
     @Override
-    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-        NbtCompound nbt = itemStack.getNbt();
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity entity,
+            ItemStack stack) {
+        CompoundTag nbt = stack.getOrCreateTag();
         if (nbt != null && nbt.get("dye") != null && nbt.get("border") != null) {
-            world.setBlockState(pos, (state.with(COLOR, Integer.parseInt(nbt.get("dye").asString()))).with(BORDER, Integer.parseInt(nbt.get("border").asString())));
+            level.setBlock(pos,
+                    (state.setValue(COLOR, nbt.getInt("dye"))
+                            .setValue(BORDER, nbt.getInt("border"))),
+                    10);
         }
-        super.onPlaced(world, pos, state, placer, itemStack);
+        super.setPlacedBy(level, pos, state, entity, stack);
     }
     ////////////////
-
-
 
     private int IsDye(Item item) {
         for (int i = 0; i < dyes.length; ++i) {

@@ -2,8 +2,10 @@ package net.lazrproductions.chess.util;
 
 import java.util.Iterator;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
+
+
 
 
 public class Utilities {

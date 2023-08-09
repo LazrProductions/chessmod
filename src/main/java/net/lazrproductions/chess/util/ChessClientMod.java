@@ -1,29 +1,34 @@
 package net.lazrproductions.chess.util;
 
-import net.lazrproductions.chess.block.ModBlocks;
+import net.lazrproductions.chess.ChessMod;
 import net.lazrproductions.chess.block.custom.BoardBlock;
 import net.lazrproductions.chess.block.custom.ChessPieceBlock;
-import net.lazrproductions.chess.config.ModConfigs;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.Mouse;
-import net.minecraft.client.render.RenderLayer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.ArrayList;
 
 import org.joml.Matrix4f;
 
-import net.fabricmc.api.ClientModInitializer;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.util.math.MatrixStack;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
-public class ChessClientMod implements ClientModInitializer {
+@OnlyIn(Dist.CLIENT)
+public class ChessClientMod {
+    public ChessClientMod() {
+        instance = this;
+    }
+
     public static ChessClientMod instance;
 
     private int offsetX = 0;
@@ -32,7 +37,6 @@ public class ChessClientMod implements ClientModInitializer {
     private boolean isBlocks = true;
 
     private int maximumMoveDistance = 20;
-    private double maxDistFromMove = 10d;
 
     private float[] blockColor = colorToRgb(0xf8d800);
     private float[] blockColor2 = colorToRgb(0xffffff);
@@ -174,18 +178,7 @@ public class ChessClientMod implements ClientModInitializer {
     ///////////////
 
 
-    @Override
-    public void onInitializeClient() {
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), new Block[] { ModBlocks.CHESS_PIECE });
 
-        instance = this;
-
-        blockColor = colorToRgb(ModConfigs.SELECTIONCOLOR1);
-        blockColor2 = colorToRgb(ModConfigs.SELECTIONCOLOR2);
-        opponentColor = colorToRgb(ModConfigs.SELECTIONOPPONENTCOLOR);
-        maximumMoveDistance = ModConfigs.SELECTIONMAXMOVEDIST;
-        maxDistFromMove = ModConfigs.SELECTIONMAXDISTTOMOVE;
-    }
 
     private float[] colorToRgb(int color) {
         float[] result = new float[3];
@@ -245,7 +238,7 @@ public class ChessClientMod implements ClientModInitializer {
         return selectedPiece == piece;
     }
 
-    public boolean pieceIsSelected(BlockPos pos) {
+    public boolean pieceIsSelected(net.minecraft.core.BlockPos pos) {
         if (selectedPiece != null && selectedPiece.pos == pos) {
             return true;
         }
@@ -274,16 +267,24 @@ public class ChessClientMod implements ClientModInitializer {
     }
     ///////////////
 
+    /////////////// Events
+    @SubscribeEvent
+    public void renderEvent(RenderLevelStageEvent event) {
+        if(event.getStage() == Stage.AFTER_SOLID_BLOCKS) {
+            renderOverlay(event.getPartialTick(), event.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderType.guiOverlay()), event.getCamera().getPosition().x, event.getCamera().getPosition().y, event.getCamera().getPosition().z);
+        }
+    }
+    ///////////////
 
     /////////////// Rendering
     float t = 0;
 
-    public void renderOverlay(float partialTicks, MatrixStack stack, VertexConsumer consumer, double cameraX, double cameraY, double cameraZ) {
+    public void renderOverlay(float partialTicks, PoseStack stack, VertexConsumer consumer, double cameraX, double cameraY, double cameraZ) {
 
         if (!showGrid)
             return;
         
-        stack.push();
+        stack.pushPose();
         stack.translate(-cameraX, -cameraY, -cameraZ);
 
         float ta = t;
@@ -305,12 +306,13 @@ public class ChessClientMod implements ClientModInitializer {
         }
         
         if (showGrid) {                
-            stack.push();
+            stack.pushPose();
             stack.translate(offsetX, 0, offsetZ);
             if (isBlocks) {
                 if(selectedPiece != null) {
-                    World world = MinecraftClient.getInstance().getCameraEntity().getWorld();
-                    MinecraftClient inst = MinecraftClient.getInstance();
+                    Minecraft inst = Minecraft.getInstance();
+                    Level world = inst.getCameraEntity().level();
+        
                     
 
                     ArrayList<MovesetDirection> set = movesetToDirections(world, pieceMoves[selectedPiece.piece].movements, selectedPiece.facing);
@@ -322,11 +324,11 @@ public class ChessClientMod implements ClientModInitializer {
                             for(int d = 1; d < maximumMoveDistance; d++) {
                                 BlockPos p = new BlockPos((set.get(i).direction.getX() * d) + selectedPiece.pos.getX(), selectedPiece.pos.getY(), (set.get(i).direction.getZ() * d) + selectedPiece.pos.getZ());
                                 Selection s = new Selection(p, curBlockColor);
-                                if(world.getBlockState(p.add(0,-1,0)).getBlock().getClass() == BoardBlock.class) {
+                                if(world.getBlockState(p.offset(0,-1,0)).getBlock().getClass() == BoardBlock.class) {
 
                                 if(world.getBlockState(p).getBlock() != Blocks.AIR) {
                                     //There is a block in the way so do not continue past this
-                                    if(world.getBlockState(p).getBlock().getClass() == ChessPieceBlock.class && world.getBlockState(p).get(ChessPieceBlock.COLOR) != selectedPiece.color) {
+                                    if(world.getBlockState(p).getBlock().getClass() == ChessPieceBlock.class && world.getBlockState(p).getValue(ChessPieceBlock.COLOR) != selectedPiece.color) {
                                         // The piece is a different color, so display a selection
                                         s.color = opponentColor;
                                         selections.add(s);
@@ -341,11 +343,11 @@ public class ChessClientMod implements ClientModInitializer {
                                 //can move here no matter what.
                                 BlockPos p = new BlockPos(set.get(i).direction.getX() + selectedPiece.pos.getX(), selectedPiece.pos.getY(), set.get(i).direction.getZ() + selectedPiece.pos.getZ());
 
-                                if(world.getBlockState(p.add(0,-1,0)).getBlock().getClass() == BoardBlock.class) {
+                                if(world.getBlockState(p.offset(0,-1,0)).getBlock().getClass() == BoardBlock.class) {
 
                                 if(world.getBlockState(p).getBlock() != Blocks.AIR) {
                                     //There is a block in the way so do not continue past this
-                                    if(world.getBlockState(p).getBlock().getClass() == ChessPieceBlock.class && world.getBlockState(p).get(ChessPieceBlock.COLOR) != selectedPiece.color) {
+                                    if(world.getBlockState(p).getBlock().getClass() == ChessPieceBlock.class && world.getBlockState(p).getValue(ChessPieceBlock.COLOR) != selectedPiece.color) {
                                         // The piece is a different color, so display a selection
                                         selections.add(new Selection(p, opponentColor));
                                     }
@@ -355,7 +357,7 @@ public class ChessClientMod implements ClientModInitializer {
                                 //Can move here if there is no piece
                                 BlockPos p = new BlockPos(set.get(i).direction.getX() + selectedPiece.pos.getX(), selectedPiece.pos.getY(), set.get(i).direction.getZ() + selectedPiece.pos.getZ());
                                 
-                                if(world.getBlockState(p.add(0,-1,0)).getBlock().getClass() == BoardBlock.class) {
+                                if(world.getBlockState(p.offset(0,-1,0)).getBlock().getClass() == BoardBlock.class) {
 
                                 if(world.getBlockState(p).getBlock() == Blocks.AIR) {
                                     selections.add(new Selection(p, curBlockColor));
@@ -366,10 +368,10 @@ public class ChessClientMod implements ClientModInitializer {
                                 BlockPos p = new BlockPos(set.get(i).direction.getX() + selectedPiece.pos.getX(), selectedPiece.pos.getY(), set.get(i).direction.getZ() + selectedPiece.pos.getZ());
                                 Selection s = new Selection(p, curBlockColor);
 
-                                if(world.getBlockState(p.add(0,-1,0)).getBlock().getClass() == BoardBlock.class) {
+                                if(world.getBlockState(p.offset(0,-1,0)).getBlock().getClass() == BoardBlock.class) {
                                 if(world.getBlockState(p).getBlock() != Blocks.AIR) {
                                     //There is a block in the way so do not continue past this
-                                    if(world.getBlockState(p).getBlock().getClass() == ChessPieceBlock.class && world.getBlockState(p).get(ChessPieceBlock.COLOR) != selectedPiece.color) {
+                                    if(world.getBlockState(p).getBlock().getClass() == ChessPieceBlock.class && world.getBlockState(p).getValue(ChessPieceBlock.COLOR) != selectedPiece.color) {
                                         // The piece is a different color, so display a selection
                                         s.color = opponentColor;
                                         selections.add(s);
@@ -391,23 +393,18 @@ public class ChessClientMod implements ClientModInitializer {
                     if(world.getBlockState(selectedPiece.pos).getBlock() == Blocks.AIR) {
                         selectedPiece = null;
                     }
-
-                    if(inst.mouse.wasRightButtonClicked()) {
-                       //inst.cameraEntity.
-                    }
-
                 }
             }
-            stack.pop();
+            stack.popPose();
         }
 
-        stack.pop();
+        stack.popPose();
     }
     ///////////////
 
     
     /////////////// Drawing
-    private void drawSquare(VertexConsumer consumer, MatrixStack stack, float x, float y, float z, float r, float g,
+    private void drawSquare(VertexConsumer consumer, PoseStack stack, float x, float y, float z, float r, float g,
             float b, float from, float to) {
         drawLine(consumer, stack, x + from, x + to, y, y, z + from, z + from, r, g, b);
         drawLine(consumer, stack, x + to, x + to, y, y, z + from, z + to, r, g, b);
@@ -415,22 +412,22 @@ public class ChessClientMod implements ClientModInitializer {
         drawLine(consumer, stack, x + from, x + from, y, y, z + to, z + from, r, g, b);
     }
 
-    private void drawLine(VertexConsumer consumer, MatrixStack stack, float x1, float x2, float y1, float y2, float z1,
+    private void drawLine(VertexConsumer consumer, PoseStack stack, float x1, float x2, float y1, float y2, float z1,
             float z2, float red, float green, float blue) {
         if (dump) {
             System.out.println("line from " + x1 + "," + y1 + "," + z1 + " to " + x2 + "," + y2 + "," + z2);
         }
-        Matrix4f model = new Matrix4f(stack.peek().getPositionMatrix());
+        Matrix4f model = new Matrix4f(stack.last().pose());
         if (model != null) {
-            consumer.vertex(model, x1, y1, z1).color(red, green, blue, 1.0f).light(0).normal(0, 1, 0).texture(0, 0)
-                    .next();
-            consumer.vertex(model, x2, y2, z2).color(red, green, blue, 1.0f).light(0).normal(0, 1, 0).texture(0, 0)
-                    .next();
+            consumer.vertex(model, x1, y1, z1).color(red, green, blue, 1.0f).normal(0, 1, 0).uv(0, 0)
+                    .endVertex();
+            consumer.vertex(model, x2, y2, z2).color(red, green, blue, 1.0f).normal(0, 1, 0).uv(0, 0)
+                    .endVertex();
         }
     }
     ///////////////
 
-    public ArrayList<MovesetDirection> movesetToDirections(World world, String[] move, int facing) {
+    public ArrayList<MovesetDirection> movesetToDirections(Level world, String[] move, int facing) {
         ArrayList<MovesetDirection> positions = new ArrayList<MovesetDirection>(0);
 
         for (int i = 0; i < 5; i++) {
@@ -485,4 +482,5 @@ public class ChessClientMod implements ClientModInitializer {
 
         return positions;
     }
+
 }
